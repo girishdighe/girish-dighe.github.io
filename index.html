@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Girish Dighe | Computational & Mechanical Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #e2e8f0;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-color: #000011;
+        }
+
+        .glass-effect {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title {
+            color: #ffffff;
+            letter-spacing: 0.1em;
+        }
+        
+        .timeline-item {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 1rem;
+            left: -1.85rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: #0a0a0a;
+            border: 3px solid #0ea5e9;
+            border-radius: 50%;
+            z-index: 10;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .timeline-item-container:hover .timeline-item::before {
+            transform: scale(1.2);
+            background-color: #0ea5e9;
+        }
+
+        .skill-tag {
+            transition: all 0.3s ease;
+        }
+        .skill-tag:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.3);
+            background-color: rgba(14, 165, 233, 0.1);
+        }
+
+        /* Scroll animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.5, 0, 0, 1), transform 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Preloader / Splash Screen */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0a0a0a;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out;
+            overflow: hidden;
+        }
+
+        #preloader .loader-text {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #fff;
+            animation: fadeInOut 1.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.95); }
+        }
+        
+        /* Experience & Achievements Section Hover Logic */
+        .expandable-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            position: absolute;
+            width: 100%;
+        }
+
+        .experience-details {
+            transition: opacity 0.3s ease-in-out, max-height 0.5s ease-in-out;
+            max-height: 500px;
+            opacity: 1;
+            overflow: hidden;
+        }
+
+        .timeline-item-container:hover .experience-details {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .timeline-item-container:hover .expandable-content {
+            position: static;
+            max-height: 400px; 
+            opacity: 1;
+        }
+
+        /* Project Section Hover Logic */
+        .project-details {
+            transition: opacity 0.3s ease-in-out, max-height 0.5s ease-in-out;
+            opacity: 1;
+            overflow: hidden;
+            max-height: 500px;
+        }
+
+        .project-card:hover .project-details {
+            max-height: 0;
+            opacity: 0;
+        }
+        
+        .project-card .expandable-content {
+             max-height: 0;
+             opacity: 0;
+             overflow: hidden;
+             transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+             position: absolute;
+             left: 0;
+             top: 0;
+             width: 100%;
+             padding: 1.5rem;
+        }
+        
+        .project-card:hover .expandable-content {
+            position: static;
+            max-height: 300px;
+            opacity: 1;
+        }
+
+        .project-carousel {
+            height: 250px;
+        }
+
+        /* Swiper Carousel Styles */
+        .experience-carousel, .achievements-carousel {
+            height: 350px; 
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 0.5rem;
+        }
+        .swiper-button-next::after, .swiper-button-prev::after {
+            font-size: 1.5rem !important;
+            font-weight: 900 !important;
+        }
+         .swiper-button-next, .swiper-button-prev {
+            color: #0ea5e9 !important;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .experience-carousel .swiper-button-next, 
+        .experience-carousel .swiper-button-prev,
+        .achievements-carousel .swiper-button-next,
+        .achievements-carousel .swiper-button-prev {
+            display: none;
+        }
+        .experience-carousel .swiper-slide,
+        .achievements-carousel .swiper-slide {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Preloader / Splash Screen -->
+    <div id="preloader">
+        <div class="loader-text">GD.</div>
+    </div>
+
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Header & Navigation -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white tracking-wider">GD.</a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#about" class="text-slate-300 hover:text-sky-400 transition">About</a>
+                <a href="#experience" class="text-slate-300 hover:text-sky-400 transition">Experience</a>
+                <a href="#projects" class="text-slate-300 hover:text-sky-400 transition">Projects</a>
+                <a href="#achievements" class="text-slate-300 hover:text-sky-400 transition">Achievements</a>
+                <a href="#skills" class="text-slate-300 hover:text-sky-400 transition">Skills</a>
+                <a href="mailto:girishdighe.grd@gmail.com" class="bg-sky-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-sky-600 transition">Contact</a>
+            </div>
+             <button id="mobile-menu-btn" class="md:hidden text-white">
+                <i data-lucide="menu"></i>
+            </button>
+        </nav>
+    </header>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-40">
+        <div class="flex justify-end p-6">
+            <button id="close-menu-btn" class="text-white"><i data-lucide="x"></i></button>
+        </div>
+        <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl">
+            <a href="#about" class="text-slate-300 hover:text-sky-400 transition mobile-menu-link">About</a>
+            <a href="#experience" class="text-slate-300 hover:text-sky-400 transition mobile-menu-link">Experience</a>
+            <a href="#projects" class="text-slate-300 hover:text-sky-400 transition mobile-menu-link">Projects</a>
+            <a href="#achievements" class="text-slate-300 hover:text-sky-400 transition mobile-menu-link">Achievements</a>
+            <a href="#skills" class="text-slate-300 hover:text-sky-400 transition mobile-menu-link">Skills</a>
+            <a href="mailto:girishdighe.grd@gmail.com" class="bg-sky-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-sky-600 transition">Contact</a>
+        </div>
+    </div>
+
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="h-screen flex items-center justify-center relative">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-7xl font-bold text-white uppercase tracking-wider">
+                    Girish Dighe
+                </h1>
+                <p class="mt-4 text-xl md:text-2xl text-sky-300">
+                    Computational & Mechanical Engineer
+                </p>
+                <p class="mt-2 text-lg text-slate-300 max-w-2xl mx-auto">
+                    Bridging Simulation, Aerospace, and Machine Learning
+                </p>
+                <div class="mt-8 flex justify-center space-x-6">
+                    <a href="https://www.linkedin.com/in/girish-dighe/" target="_blank" class="text-slate-300 hover:text-sky-400"><i data-lucide="linkedin" class="w-8 h-8"></i></a>
+                    <a href="https://github.com/girishdighe" target="_blank" class="text-slate-300 hover:text-sky-400"><i data-lucide="github" class="w-8 h-8"></i></a>
+                    <a href="mailto:girishdighe.grd@gmail.com" class="text-slate-300 hover:text-sky-400"><i data-lucide="mail" class="w-8 h-8"></i></a>
+                </div>
+            </div>
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2">
+                <a href="#about" aria-label="Scroll to about section">
+                    <i data-lucide="arrow-down" class="w-8 h-8 text-white animate-bounce"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 md:py-28">
+            <div class="container mx-auto px-6 reveal">
+                <h2 class="text-4xl md:text-6xl font-bold text-center mb-16 section-title uppercase">About</h2>
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/3 flex justify-center">
+                        <img src="images/Profile.jpeg" alt="Girish Dighe" class="w-48 h-48 md:w-56 md:h-56 rounded-full shadow-2xl border-4 border-sky-500/50 object-cover">
+                    </div>
+                    <div class="md:w-2/3 text-lg text-slate-300 space-y-4">
+                        <p>
+                           I am a Mechanical and Computational Engineer with a passion for solving complex challenges at the intersection of simulation, product development, and machine learning. My international experience spans the aerospace, energy, and sustainable systems sectors, where I've leveraged my skills to drive innovation.
+                        </p>
+                        <p>
+                           With a Master of Science (with Distinction) from Cardiff University, I specialize in CFD, combustion, and propulsion. I am particularly interested in applying modern techniques like Machine Learning and Digital Twins to accelerate engineering workflows and deliver robust, production-ready solutions.
+                        </p>
+                         <p>
+                           From analyzing sustainable aviation fuels to developing digital twins for vertical farming, my work is driven by a commitment to creating efficient and sustainable technology.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mx-auto px-6"><hr class="border-t border-slate-800"></div>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-20 md:py-28">
+            <div class="container mx-auto px-6 reveal">
+                <h2 class="text-4xl md:text-6xl font-bold text-center mb-16 section-title uppercase">Experience</h2>
+                <div class="relative max-w-3xl mx-auto border-l-2 border-slate-700 pl-8">
+                    
+                    <div class="timeline-item-container mb-12">
+                        <div class="timeline-item">
+                            <p class="text-sm text-sky-400">07/2024 – Present</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">Research Assistant</h3>
+                            <p class="text-lg text-slate-400">Cardiff University, UK</p>
+                            
+                            <div class="experience-details">
+                                <ul class="mt-4 list-disc list-inside text-slate-300 space-y-2 text-base">
+                                    <li>Conducted CFD, combustion, and emissions analysis for sustainable aviation fuels.</li>
+                                    <li>Applied PINNs and ML surrogates to predict airfoil flow dynamics and icing behaviour.</li>
+                                    <li>Designed system test rigs and P&IDs for turboshaft engine research with Senza Tech.</li>
+                                    <li>Developed a prototype digital twin for renewable-powered vertical farming (Invertigro).</li>
+                                    <li>Performed wind turbine icing studies (Fluent, OpenFOAM) with UKRI & NRC Canada.</li>
+                                </ul>
+                            </div>
+
+                            <div class="expandable-content">
+                                <div class="swiper-container experience-carousel mt-4 rounded-lg overflow-hidden relative group">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide"><img src="images/Velocity Streamlines.png" alt="Velocity Streamlines"></div>
+                                        <div class="swiper-slide"><img src="images/Schematic.png" alt="Engine Test Rig Schematic"></div>
+                                        <div class="swiper-slide"><img src="images/Premixed Combustion.png" alt="Premixed Combustion Simulation"></div>
+                                        <div class="swiper-slide"><img src="images/Optical modular staged combustor.png" alt="Optical modular staged combustor"></div>
+                                        <div class="swiper-slide"><img src="images/Diffusion Combustion.png" alt="Diffusion Combustion"></div>
+                                        <div class="swiper-slide"><img src="images/Premixed CFD.png" alt="Premixed CFD"></div>
+                                    </div>
+                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <p class="text-white text-lg font-semibold">Click to advance</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item-container mb-12">
+                         <div class="timeline-item">
+                            <p class="text-sm text-sky-400">07/2021 – 06/2022</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">Design and Testing Engineer</h3>
+                            <p class="text-lg text-slate-400">Manastu Space Technologies, India</p>
+
+                            <div class="experience-details">
+                                <ul class="mt-4 list-disc list-inside text-slate-300 space-y-2 text-base">
+                                   <li>Led ground testing, improving thrust measurement accuracy by 14% and thermal efficiency by 10%.</li>
+                                   <li>Designed structural, thermal, and fluid hardware for propulsion systems.</li>
+                                   <li>Collaborated with DRDO, ISRO, and venture capital partners for validation and funding.</li>
+                                   <li>Strengthened engineering workflows via SOPS, DFMEA, HAZOP, ALARP frameworks.</li>
+                                   <li>Used Python, MATLAB, Power BI for propulsion performance analysis and visualization.</li>
+                               </ul>
+                           </div>
+
+                             <div class="expandable-content">
+                                <div class="swiper-container experience-carousel mt-4 rounded-lg overflow-hidden relative group">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide"><img src="images/300N Manastu Space.png" alt="300N Thruster from Manastu Space"></div>
+                                        <div class="swiper-slide"><img src="images/1N i-Booster.png" alt="1N i-Booster Thruster"></div>
+                                        <div class="swiper-slide"><img src="images/Manastu Team.png" alt="Manastu Space Team"></div>
+                                        <div class="swiper-slide"><img src="images/Manastu Space Qualified.png" alt="Manastu Space Qualification"></div>
+                                        <div class="swiper-slide"><img src="images/Vyom 1U Module.png" alt="Vyom 1U Module"></div>
+                                        <div class="swiper-slide"><img src="images/Satellite Mounting.png" alt="Satellite Mounting Hardware"></div>
+                                    </div>
+                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <p class="text-white text-lg font-semibold">Click to advance</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="container mx-auto px-6"><hr class="border-t border-slate-800"></div>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 md:py-28">
+            <div class="container mx-auto px-6 reveal">
+                <h2 class="text-4xl md:text-6xl font-bold text-center mb-16 section-title uppercase">Projects</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8 lg:max-w-4xl lg:mx-auto">
+                    
+                    <div class="project-card relative glass-effect rounded-lg p-6 hover:border-sky-500/50 transition-all duration-300 overflow-hidden">
+                        <div class="project-details">
+                            <h3 class="text-xl font-bold text-white">Digital Twin for Vertical Farming</h3>
+                            <p class="text-slate-400 mt-2">Developed a prototype digital twin integrating renewable energy models and sensor data for system efficiency. Applied Taguchi DOE, Pareto and Bees optimization, forecasting and real-time visualization via Dash to demonstrate system efficiency and sustainability.</p>
+                            <div class="mt-auto pt-4">
+                                <a href="#" class="text-sky-400 font-semibold">Learn More <i data-lucide="arrow-right" class="inline-block w-4 h-4"></i></a>
+                            </div>
+                        </div>
+                        <div class="expandable-content">
+                            <div class="swiper-container project-carousel rounded-lg overflow-hidden">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide"><img src="images/Plant Layout.png" alt="Plant Layout"></div>
+                                    <div class="swiper-slide"><img src="images/Schematic Digital Twin.png" alt="Digital Twin Schematic"></div>
+                                </div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card relative glass-effect rounded-lg p-6 hover:border-sky-500/50 transition-all duration-300 overflow-hidden">
+                        <div class="project-details">
+                            <h3 class="text-xl font-bold text-white">Fast Surrogates for Airfoil Aerodynamics</h3>
+                            <p class="text-slate-400 mt-2">Developed FNO, UNet, and POD surrogates on the AirfRANS dataset to predict velocity and pressure fields. Achieved ~2-3% normalized RMSE after physics-aware fine-tuning, enabling fast and accurate aerodynamic predictions.</p>
+                            <div class="mt-auto pt-4">
+                                <a href="https://github.com/girishdighe/Learning-Fast-Surrogates-for-2-D-Airfoil-Aerodynamics-" target="_blank" class="text-sky-400 font-semibold">Learn More <i data-lucide="arrow-right" class="inline-block w-4 h-4"></i></a>
+                            </div>
+                        </div>
+                        <div class="expandable-content">
+                            <div class="swiper-container project-carousel rounded-lg overflow-hidden">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <a href="https://github.com/girishdighe/Learning-Fast-Surrogates-for-2-D-Airfoil-Aerodynamics-" target="_blank">
+                                            <img src="images/scatter_cl.png" alt="Scatter CL">
+                                        </a>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <a href="https://github.com/girishdighe/Learning-Fast-Surrogates-for-2-D-Airfoil-Aerodynamics-" target="_blank">
+                                            <img src="images/case186_fields.png" alt="Case 186 Fields">
+                                        </a>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <a href="https://github.com/girishdighe/Learning-Fast-Surrogates-for-2-D-Airfoil-Aerodynamics-" target="_blank">
+                                            <img src="images/case212_cp.png" alt="Case 212 CP">
+                                        </a>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <a href="https://github.com/girishdighe/Learning-Fast-Surrogates-for-2-D-Airfoil-Aerodynamics-" target="_blank">
+                                            <img src="images/mae.png" alt="MAE">
+                                        </a>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <a href="https://github.com/girishdighe/Learning-Fast-Surrogates-for-2-D-Airfoil-Aerodynamics-" target="_blank">
+                                            <img src="images/case000_POD_speed.png" alt="POD Speed">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card relative glass-effect rounded-lg p-6 hover:border-sky-500/50 transition-all duration-300 overflow-hidden">
+                        <div class="project-details">
+                            <h3 class="text-xl font-bold text-white">ML in CFD Labs</h3>
+                            <p class="text-slate-400 mt-2">Implemented reduced-order models (POD, DMD) and ML surrogates (FNO) to compress and reconstruct airfoil flow fields. Demonstrated sensor-conditioned reconstructions and hybrid physics-ML models for digital twin applications.</p>
+                            <div class="mt-auto pt-4">
+                                <a href="https://github.com/girishdighe/Labs-ML-in-CFD" target="_blank" class="text-sky-400 font-semibold">Learn More <i data-lucide="arrow-right" class="inline-block w-4 h-4"></i></a>
+                            </div>
+                        </div>
+                        <div class="expandable-content">
+                            <div class="swiper-container project-carousel rounded-lg overflow-hidden">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <a href="https://github.com/girishdighe/Labs-ML-in-CFD" target="_blank">
+                                            <img src="images/hankel_one_step_train_end.png" alt="Hankel One Step">
+                                        </a>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <a href="https://github.com/girishdighe/Labs-ML-in-CFD" target="_blank">
+                                            <img src="images/recon_pod_only.png" alt="Recon POD">
+                                        </a>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <a href="https://github.com/girishdighe/Labs-ML-in-CFD" target="_blank">
+                                            <img src="images/recon_pair_0.png" alt="Recon Pair">
+                                        </a>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <a href="https://github.com/girishdighe/Labs-ML-in-CFD" target="_blank">
+                                            <img src="images/hankel_eigs.png" alt="Hankel EIGS">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>
+                        </div>
+                    </div>
+                                       
+                     <div class="project-card relative glass-effect rounded-lg p-6 hover:border-sky-500/50 transition-all duration-300 overflow-hidden">
+                        <div class="project-details">
+                            <h3 class="text-xl font-bold text-white">Bachelor's Thesis: Liquid Rocket Engines</h3>
+                            <p class="text-slate-400 mt-2">Performed turbulence and combustion modeling of liquid rocket engines in ANSYS Fluent. Conducted grid independence studies and model validation. Optimized meshing and combustion models to improve prediction accuracy.</p>
+                             <div class="mt-auto pt-4">
+                                <a href="#" class="text-sky-400 font-semibold">Learn More <i data-lucide="arrow-right" class="inline-block w-4 h-4"></i></a>
+                            </div>
+                        </div>
+                         <div class="expandable-content">
+                            <div class="swiper-container project-carousel rounded-lg overflow-hidden">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide flex items-center justify-center"><span class="text-slate-400">No images available</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mx-auto px-6"><hr class="border-t border-slate-800"></div>
+
+        <!-- Notable Achievements Section -->
+        <section id="achievements" class="py-20 md:py-28">
+            <div class="container mx-auto px-6 reveal">
+                <h2 class="text-4xl md:text-6xl font-bold text-center mb-16 section-title uppercase">Notable Achievements</h2>
+                <div class="relative max-w-3xl mx-auto border-l-2 border-slate-700 pl-8">
+                    
+                    <div class="timeline-item-container mb-12">
+                        <div class="timeline-item">
+                            <p class="text-sm text-sky-400">06/2024 – 09/2024</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">Master's Thesis</h3>
+                            <p class="text-lg text-slate-400">Conjugate Heat Transfer in Micromix Combustors</p>
+                            <div class="experience-details">
+                                <ul class="mt-4 list-disc list-inside text-slate-300 space-y-2 text-base">
+                                    <li>Investigated the performance and emissions of H₂ and NH₃-H₂ blends using ANSYS Fluent and CHEMKIN.</li>
+                                    <li>Assessed conjugate heat transfer (CHT) effects on combustor performance.</li>
+                                    <li>Validated computational results against experimental data to support sustainable propulsion system design.</li>
+                                </ul>
+                            </div>
+                            <div class="expandable-content">
+                                <div class="swiper-container achievements-carousel mt-4 rounded-lg overflow-hidden relative group">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide"><img src="images/Micromix Combustor.png" alt="Micromix Combustor"></div>
+                                        <div class="swiper-slide"><img src="images/Micromix CFD.png" alt="Micromix CFD Simulation"></div>
+                                    </div>
+                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <p class="text-white text-lg font-semibold">Click to advance</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item-container mb-12">
+                         <div class="timeline-item">
+                            <p class="text-sm text-sky-400">2018 – 2021</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">Motorsports & Vehicle Design Leadership</h3>
+                            <p class="text-lg text-slate-400">Formula Student, SAEINDIA, Modified Auto Club</p>
+                            <div class="experience-details">
+                               <ul class="mt-4 list-disc list-inside text-slate-300 space-y-2 text-base">
+                                   <li>Co-founded a Formula Student club and led the Suspension Design Team of 50+ members.</li>
+                                   <li>Directed the team to win the "Best Debut Award" at Formula Bharat 2020.</li>
+                                   <li>Led design and fabrication for multiple electric vehicles, contributing to podium finishes at the Asian E-Bike Challenge and Electric Solar Vehicle Championship.</li>
+                               </ul>
+                           </div>
+                           <div class="expandable-content">
+                                <div class="swiper-container achievements-carousel mt-4 rounded-lg overflow-hidden relative group">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide"><img src="images/Solar Car Award.png" alt="Solar Car Award"></div>
+                                        <div class="swiper-slide"><img src="images/Solar Car win.png" alt="Solar Car Win"></div>
+                                        <div class="swiper-slide"><img src="images/E-Bike.png" alt="Electric Bike Design"></div>
+                                    </div>
+                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <p class="text-white text-lg font-semibold">Click to advance</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <div class="container mx-auto px-6"><hr class="border-t border-slate-800"></div>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 md:py-28">
+            <div class="container mx-auto px-6 reveal">
+                <h2 class="text-4xl md:text-6xl font-bold text-center mb-16 section-title uppercase">Skills</h2>
+                <div class="max-w-4xl mx-auto">
+                    <div>
+                        <h3 class="text-2xl font-bold text-sky-400 mb-4">Simulations & Analysis</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">Ansys Fluent</span>
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">MATLAB</span>
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">OpenFOAM</span>
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">CFD</span>
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">Combustion Modeling</span>
+                        </div>
+                    </div>
+                    <div class="my-12">
+                        <h3 class="text-2xl font-bold text-sky-400 mb-4">AI / ML</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">Python</span>
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">C++</span>
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">TensorFlow</span>
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">PINNs</span>
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">Digital Twins</span>
+                        </div>
+                    </div>
+                     <div>
+                        <h3 class="text-2xl font-bold text-sky-400 mb-4">CAD & Design</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">SolidWorks</span>
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">CATIA</span>
+                            <span class="skill-tag glass-effect text-slate-200 text-md font-medium px-4 py-2 rounded-full">Siemens NX</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Footer -->
+    <footer class="py-20 md:py-28">
+        <div class="container mx-auto px-6 text-center reveal">
+            <h3 class="text-2xl font-bold text-white">Let's Connect</h3>
+            <p class="text-slate-400 mt-2">Feel free to reach out for collaborations or just a friendly chat.</p>
+            <a href="mailto:girishdighe.grd@gmail.com" class="mt-6 inline-block bg-sky-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-sky-600 transition">girishdighe.grd@gmail.com</a>
+            <div class="mt-8 flex justify-center space-x-6">
+                <a href="https://www.linkedin.com/in/girish-dighe/" target="_blank" class="text-slate-400 hover:text-sky-400"><i data-lucide="linkedin" class="w-7 h-7"></i></a>
+                <a href="https://github.com/girishdighe" target="_blank" class="text-slate-400 hover:text-sky-400"><i data-lucide="github" class="w-7 h-7"></i></a>
+            </div>
+            <p class="mt-8 text-slate-500 text-sm">&copy; 2025 Girish Dighe. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Swiper.js JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        lucide.createIcons();
+
+        // --- Preloader / Splash Screen ---
+        const preloader = document.getElementById('preloader');
+        const heroContent = document.querySelector('#home > div');
+
+        window.addEventListener('load', () => {
+            // Wait for animation to finish before fading out
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    
+                    // Start hero animation after preloader is gone
+                    heroContent.querySelectorAll('*').forEach((el, index) => {
+                        el.classList.add('reveal', 'visible');
+                        el.style.transitionDelay = `${index * 150}ms`;
+                    });
+
+                }, 500); // fade out duration
+            }, 1500); // Splash screen duration
+        });
+        
+        // --- Floating Satellite Animation ---
+        particlesJS("particles-js", {
+          "particles": {
+            "number": {
+              "value": 350,
+              "density": {
+                "enable": true,
+                "value_area": 800
+              }
+            },
+            "color": {
+              "value": "#ffffff"
+            },
+            "shape": {
+              "type": "circle",
+            },
+            "opacity": {
+              "value": 0.8,
+              "random": true,
+              "anim": {
+                "enable": true,
+                "speed": 1,
+                "opacity_min": 0,
+                "sync": false
+              }
+            },
+            "size": {
+              "value": 2,
+              "random": true,
+              "anim": {
+                "enable": false,
+              }
+            },
+            "line_linked": {
+              "enable": false,
+            },
+            "move": {
+              "enable": true,
+              "speed": 0.2,
+              "direction": "none",
+              "random": true,
+              "straight": false,
+              "out_mode": "out",
+              "bounce": false,
+            }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+              "onhover": {
+                "enable": false,
+              },
+              "onclick": {
+                "enable": false,
+              },
+              "resize": true
+            }
+          },
+          "retina_detect": true
+        });
+
+        // Add a single large "satellite" particle
+        window.pJSDom[0].pJS.fn.modes.pushParticles(1, {
+            "color": {"value": "#0ea5e9"},
+            "opacity": {"value": 1},
+            "size": {
+                "value": 5, 
+                "random": false,
+                "anim": {
+                    "enable": true,
+                    "speed": 0.5,
+                    "size_min": 4,
+                    "sync": false
+                }
+            },
+            "move": {
+                "enable": true,
+                "speed": 0.3,
+                "direction": "none",
+                "random": true,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false,
+            }
+        });
+
+
+        // --- Navbar Scroll Effect ---
+        const header = document.getElementById('header');
+        window.onscroll = function() {
+            if (window.scrollY > 50) {
+                header.classList.add('glass-effect', 'shadow-lg');
+            } else {
+                header.classList.remove('glass-effect', 'shadow-lg');
+            }
+        };
+        
+        // --- Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+        mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.remove('hidden'); });
+        closeMenuBtn.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
+        });
+
+        // --- Scroll Reveal Animation Logic ---
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.reveal').forEach(el => {
+             revealObserver.observe(el);
+        });
+
+        // --- Swiper Carousel Initialization ---
+        document.querySelectorAll('.achievements-carousel, .experience-carousel').forEach(function(carousel) {
+            const swiper = new Swiper(carousel, {
+                loop: true,
+                autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                },
+            });
+
+            swiper.el.addEventListener('click', function(event) {
+                if (event.target.closest('a')) {
+                    return;
+                }
+                swiper.slideNext();
+            });
+        });
+        
+        document.querySelectorAll('.project-carousel').forEach(function(carousel) {
+            new Swiper(carousel, {
+                loop: true,
+                navigation: {
+                    nextEl: carousel.querySelector('.swiper-button-next'),
+                    prevEl: carousel.querySelector('.swiper-button-prev'),
+                },
+                autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                },
+            });
+        });
+
+    </script>
+</body>
+
+</html>
+
