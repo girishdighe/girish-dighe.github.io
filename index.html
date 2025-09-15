@@ -58,7 +58,8 @@
             transition: all 0.3s ease-in-out;
         }
 
-        .timeline-item-container:hover .timeline-item::before {
+        .timeline-item-container:hover .timeline-item::before,
+        .timeline-item-container.js-is-open .timeline-item::before {
             transform: scale(1.2);
             background-color: #0ea5e9;
         }
@@ -130,12 +131,24 @@
             overflow: hidden;
         }
 
-        .timeline-item-container:hover .experience-details {
+        @media (hover: hover) and (pointer: fine) {
+            .timeline-item-container:hover .experience-details {
+                max-height: 0;
+                opacity: 0;
+            }
+            .timeline-item-container:hover .expandable-content {
+                position: static;
+                max-height: 400px; 
+                opacity: 1;
+            }
+        }
+
+        .timeline-item-container.js-is-open .experience-details {
             max-height: 0;
             opacity: 0;
         }
 
-        .timeline-item-container:hover .expandable-content {
+        .timeline-item-container.js-is-open .expandable-content {
             position: static;
             max-height: 400px; 
             opacity: 1;
@@ -149,7 +162,19 @@
             max-height: 500px;
         }
 
-        .project-card:hover .project-details {
+        @media (hover: hover) and (pointer: fine) {
+            .project-card:hover .project-details {
+                max-height: 0;
+                opacity: 0;
+            }
+            .project-card:hover .expandable-content {
+                position: static;
+                max-height: 300px;
+                opacity: 1;
+            }
+        }
+        
+        .project-card.js-is-open .project-details {
             max-height: 0;
             opacity: 0;
         }
@@ -166,7 +191,7 @@
              padding: 1.5rem;
         }
         
-        .project-card:hover .expandable-content {
+        .project-card.js-is-open .expandable-content {
             position: static;
             max-height: 300px;
             opacity: 1;
@@ -205,6 +230,18 @@
         .achievements-carousel .swiper-slide {
             cursor: pointer;
         }
+
+        .tap-hint {
+            display: none;
+        }
+        
+        /* Show hint only on devices that do not support hover (i.e., touch devices) */
+        @media (hover: none) and (pointer: coarse) {
+            .tap-hint {
+                display: block;
+            }
+        }
+
     </style>
 </head>
 
@@ -323,6 +360,7 @@
                                     <li>Developed a prototype digital twin for renewable-powered vertical farming (Invertigro).</li>
                                     <li>Performed wind turbine icing studies (Fluent, OpenFOAM) with UKRI & NRC Canada.</li>
                                 </ul>
+                                <p class="mt-4 text-sky-400 text-sm tap-hint">Tap to see gallery <i data-lucide="camera" class="inline-block w-4 h-4 ml-1"></i></p>
                             </div>
 
                             <div class="expandable-content">
@@ -334,9 +372,6 @@
                                         <div class="swiper-slide"><img src="images/Optical modular staged combustor.png" alt="Optical modular staged combustor"></div>
                                         <div class="swiper-slide"><img src="images/Diffusion Combustion.png" alt="Diffusion Combustion"></div>
                                         <div class="swiper-slide"><img src="images/Premixed CFD.png" alt="Premixed CFD"></div>
-                                    </div>
-                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <p class="text-white text-lg font-semibold">Click to advance</p>
                                     </div>
                                 </div>
                             </div>
@@ -357,6 +392,7 @@
                                    <li>Strengthened engineering workflows via SOPS, DFMEA, HAZOP, ALARP frameworks.</li>
                                    <li>Used Python, MATLAB, Power BI for propulsion performance analysis and visualization.</li>
                                </ul>
+                               <p class="mt-4 text-sky-400 text-sm tap-hint">Tap to see gallery <i data-lucide="camera" class="inline-block w-4 h-4 ml-1"></i></p>
                            </div>
 
                              <div class="expandable-content">
@@ -368,9 +404,6 @@
                                         <div class="swiper-slide"><img src="images/Manastu Space Qualified.png" alt="Manastu Space Qualification"></div>
                                         <div class="swiper-slide"><img src="images/Vyom 1U Module.png" alt="Vyom 1U Module"></div>
                                         <div class="swiper-slide"><img src="images/Satellite Mounting.png" alt="Satellite Mounting Hardware"></div>
-                                    </div>
-                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <p class="text-white text-lg font-semibold">Click to advance</p>
                                     </div>
                                 </div>
                             </div>
@@ -395,6 +428,7 @@
                             <div class="mt-auto pt-4">
                                 <a href="#" class="text-sky-400 font-semibold">Learn More <i data-lucide="arrow-right" class="inline-block w-4 h-4"></i></a>
                             </div>
+                            <p class="mt-4 text-sky-400 text-sm tap-hint">Tap to see gallery <i data-lucide="camera" class="inline-block w-4 h-4 ml-1"></i></p>
                         </div>
                         <div class="expandable-content">
                             <div class="swiper-container project-carousel rounded-lg overflow-hidden">
@@ -415,6 +449,7 @@
                             <div class="mt-auto pt-4">
                                 <a href="https://github.com/girishdighe/Learning-Fast-Surrogates-for-2-D-Airfoil-Aerodynamics-" target="_blank" class="text-sky-400 font-semibold">Learn More <i data-lucide="arrow-right" class="inline-block w-4 h-4"></i></a>
                             </div>
+                             <p class="mt-4 text-sky-400 text-sm tap-hint">Tap to see gallery <i data-lucide="camera" class="inline-block w-4 h-4 ml-1"></i></p>
                         </div>
                         <div class="expandable-content">
                             <div class="swiper-container project-carousel rounded-lg overflow-hidden">
@@ -458,6 +493,7 @@
                             <div class="mt-auto pt-4">
                                 <a href="https://github.com/girishdighe/Labs-ML-in-CFD" target="_blank" class="text-sky-400 font-semibold">Learn More <i data-lucide="arrow-right" class="inline-block w-4 h-4"></i></a>
                             </div>
+                             <p class="mt-4 text-sky-400 text-sm tap-hint">Tap to see gallery <i data-lucide="camera" class="inline-block w-4 h-4 ml-1"></i></p>
                         </div>
                         <div class="expandable-content">
                             <div class="swiper-container project-carousel rounded-lg overflow-hidden">
@@ -496,6 +532,7 @@
                              <div class="mt-auto pt-4">
                                 <a href="#" class="text-sky-400 font-semibold">Learn More <i data-lucide="arrow-right" class="inline-block w-4 h-4"></i></a>
                             </div>
+                             <p class="mt-4 text-sky-400 text-sm tap-hint">Tap to see gallery <i data-lucide="camera" class="inline-block w-4 h-4 ml-1"></i></p>
                         </div>
                          <div class="expandable-content">
                             <div class="swiper-container project-carousel rounded-lg overflow-hidden">
@@ -528,15 +565,13 @@
                                     <li>Assessed conjugate heat transfer (CHT) effects on combustor performance.</li>
                                     <li>Validated computational results against experimental data to support sustainable propulsion system design.</li>
                                 </ul>
+                                <p class="mt-4 text-sky-400 text-sm tap-hint">Tap to see gallery <i data-lucide="camera" class="inline-block w-4 h-4 ml-1"></i></p>
                             </div>
                             <div class="expandable-content">
                                 <div class="swiper-container achievements-carousel mt-4 rounded-lg overflow-hidden relative group">
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide"><img src="images/Micromix Combustor.png" alt="Micromix Combustor"></div>
                                         <div class="swiper-slide"><img src="images/Micromix CFD.png" alt="Micromix CFD Simulation"></div>
-                                    </div>
-                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <p class="text-white text-lg font-semibold">Click to advance</p>
                                     </div>
                                 </div>
                             </div>
@@ -554,6 +589,7 @@
                                    <li>Directed the team to win the "Best Debut Award" at Formula Bharat 2020.</li>
                                    <li>Led design and fabrication for multiple electric vehicles, contributing to podium finishes at the Asian E-Bike Challenge and Electric Solar Vehicle Championship.</li>
                                </ul>
+                               <p class="mt-4 text-sky-400 text-sm tap-hint">Tap to see gallery <i data-lucide="camera" class="inline-block w-4 h-4 ml-1"></i></p>
                            </div>
                            <div class="expandable-content">
                                 <div class="swiper-container achievements-carousel mt-4 rounded-lg overflow-hidden relative group">
@@ -561,9 +597,6 @@
                                         <div class="swiper-slide"><img src="images/Solar Car Award.png" alt="Solar Car Award"></div>
                                         <div class="swiper-slide"><img src="images/Solar Car win.png" alt="Solar Car Win"></div>
                                         <div class="swiper-slide"><img src="images/E-Bike.png" alt="Electric Bike Design"></div>
-                                    </div>
-                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <p class="text-white text-lg font-semibold">Click to advance</p>
                                     </div>
                                 </div>
                             </div>
@@ -810,6 +843,32 @@
                 },
             });
         });
+
+        // --- Tap-to-expand logic for mobile/touch ---
+        function setupAccordion(selector) {
+            const items = document.querySelectorAll(selector);
+            items.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (e.target.closest('a') || e.target.closest('.swiper-container')) {
+                        return;
+                    }
+                    
+                    const isOpen = this.classList.contains('js-is-open');
+                    
+                    const parentContainer = this.parentElement;
+                    parentContainer.querySelectorAll(selector).forEach(sibling => {
+                        sibling.classList.remove('js-is-open');
+                    });
+
+                    if (!isOpen) {
+                        this.classList.add('js-is-open');
+                    }
+                });
+            });
+        }
+
+        setupAccordion('.timeline-item-container');
+        setupAccordion('.project-card');
 
     </script>
 </body>
